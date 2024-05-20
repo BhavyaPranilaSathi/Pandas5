@@ -1,0 +1,33 @@
+Pandas5
+1 Problem 1 : Department Highest Salary 
+
+import pandas as pd
+
+def department_highest_salary(employee: pd.DataFrame, department: pd.DataFrame) -> pd.DataFrame:
+    df = employee.merge(department, left_on ='departmentId' , right_on ='id' )
+    max_sal = df.groupby('name_y')['salary'].transform(max)
+    df =df[df['salary']==max_sal]
+    return df[['name_y','name_x','salary']].rename(columns = {'name_y': 'Department' , 'name_x':'Employee' })
+
+
+
+2 Problem 2 : Rank Scores
+
+sol 1:
+
+import pandas as pd
+
+def order_scores(scores: pd.DataFrame) -> pd.DataFrame:
+    scores['rank'] = scores['score'].rank(method ="dense", ascending =False)
+    return scores[['score','rank']].sort_values(by = 'score', ascending =False) 
+
+
+
+sol 2:
+
+import pandas as pd
+
+def order_scores(scores: pd.DataFrame) -> pd.DataFrame:
+    scores['rank'] = scores['score'].rank(method ="dense", ascending =False)
+    result_df = scores.drop('id',axis=1).sort_values(by='score', ascending=False)
+    return result_df
